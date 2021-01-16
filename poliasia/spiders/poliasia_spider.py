@@ -10,7 +10,7 @@ class DiplomatSpider(scrapy.Spider):
 
     def __init__(self, *args, **kwargs):
         self.url = kwargs['url']
-        self.html_file = open('file.html', 'w')
+        self.html_file = open('article.html', 'w')
 
         super(DiplomatSpider, self).__init__(*args, **kwargs)
 
