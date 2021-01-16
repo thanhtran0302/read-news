@@ -2,20 +2,23 @@ import json
 import scrapy
 from poliasia.src.logger import Logger
 from poliasia.src.the_economist import json_to_html
+from poliasia.src.utils import write_html
 
 
 class DiplomatSpider(scrapy.Spider):
     name = 'news'
-    url = ''
+    urls = []
 
     def __init__(self, *args, **kwargs):
-        self.url = kwargs['url']
-        self.html_file = open('article.html', 'w')
+        print('URL', kwargs['url'])
+        urls = kwargs['url'].split(',')
+        self.urls = urls
 
         super(DiplomatSpider, self).__init__(*args, **kwargs)
 
     def start_requests(self):
-        yield scrapy.Request(url=self.url, callback=self.parse)
+        for url in self.urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         url = response.url
@@ -30,11 +33,11 @@ class DiplomatSpider(scrapy.Spider):
             yield self.the_economist(response)
         elif url.find('nytimes.com') != -1:
             yield self.nytimes(response)
-        Logger.success('HTML file created. Ready to read.')
 
     def the_diplomat_scrapper(self, response):
         article = response.css('#td-story-body')
         title = response.css('#td-headline').get()
+        titletext = response.css('#td-headline::text').get()
         date = response.css('.td-date [itemprop="datePublished"]').get()
         lead_title = response.css('#td-lead').get()
         paragraphs = article.css('p').getall()
@@ -45,27 +48,32 @@ class DiplomatSpider(scrapy.Spider):
                 Logger.info('Adding paragraph to html content')
                 html = html + paragraph
 
-        self.html_file.write(html)
+        write_html(titletext, html)
 
     def foreign_policy_scrapper(self, response):
-        title = response.css('span.hed-heading').get()
+        title = response.css('span.hed-heading .hed').get()
+        titletext = response.css('span.hed-heading .hed::text').get()
         description = response.css('h2.dek-heading').get()
         article = response.css('div.post-content-main').get()
         html = title + description + article
 
-        self.html_file.write(html)
+        Logger.info('title ' + titletext)
+        write_html(titletext, html)
+
 
     def asia_nikkei_scrapper(self, response):
         title = response.css('h1.article-header__title').get()
+        titletext = response.css('h1.article-header__title::text').get()
         subtitle = response.css('p.article-header__sub-title').get()
         main_image = response.css('[data-trackable="image-main"] .img-fluid').get()
         article = response.css('.ezrichtext-field').get()
         html = title + subtitle + main_image + article
 
-        self.html_file.write(html)
+        write_html(titletext, html)
 
     def the_economist(self, response):
         title = response.css('.article__headline').get()
+        titletext = response.css('.article__headline::text').get()
         description = response.css('.article__description').get()
         image = response.css('.article__lead-image').get()
         publish_date = response.css('.article__dateline-datetime').get()
@@ -73,10 +81,11 @@ class DiplomatSpider(scrapy.Spider):
         article = json_to_html(json.loads(content))
         html = title + description + image + publish_date + article
 
-        self.html_file.write(html)
+        write_html(titletext, html)
 
     def nytimes(self, response):
         title = response.css('[data-test-id="headline"]').get()
+        titletext = response.css('[data-test-id="headline"]::text').get()
         description = response.css('#article-summary').get()
         image = response.css('header picture img').get()
         publish_date = response.css('time.css-129k401.e16638kd0').get()
@@ -93,5 +102,4 @@ class DiplomatSpider(scrapy.Spider):
             html = html + publish_date
         if body is not None:
             html = html + body
-
-        self.html_file.write(html)
+        write_html(titletext, html)
