@@ -3,5 +3,5 @@ lib
 pyvenv.cfg
 .idea
 article.html
-poliasia/__pycache__
-poliasia/**/__pycache__
+__pycache__/
+**/__pycache__/
