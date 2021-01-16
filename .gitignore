@@ -2,3 +2,6 @@ bin
 lib
 pyvenv.cfg
 .idea
+article.html
+poliasia/__pycache__
+poliasia/**/__pycache__
