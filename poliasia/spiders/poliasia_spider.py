@@ -28,6 +28,9 @@ class DiplomatSpider(scrapy.Spider):
             yield self.asia_nikkei_scrapper(response)
         elif url.find('economist.com') != -1:
             yield self.the_economist(response)
+        elif url.find('nytimes.com') != -1:
+            yield self.nytimes(response)
+        Logger.success('HTML file created. Ready to read.')
 
     def the_diplomat_scrapper(self, response):
         article = response.css('#td-story-body')
@@ -43,7 +46,6 @@ class DiplomatSpider(scrapy.Spider):
                 html = html + paragraph
 
         self.html_file.write(html)
-        Logger.success('HTML file created. Ready to read.')
 
     def foreign_policy_scrapper(self, response):
         title = response.css('span.hed-heading').get()
@@ -52,7 +54,6 @@ class DiplomatSpider(scrapy.Spider):
         html = title + description + article
 
         self.html_file.write(html)
-        Logger.success('HTML file created. Ready to read.')
 
     def asia_nikkei_scrapper(self, response):
         title = response.css('h1.article-header__title').get()
@@ -62,7 +63,6 @@ class DiplomatSpider(scrapy.Spider):
         html = title + subtitle + main_image + article
 
         self.html_file.write(html)
-        Logger.success('HTML file created. Ready to read.')
 
     def the_economist(self, response):
         title = response.css('.article__headline').get()
@@ -74,4 +74,24 @@ class DiplomatSpider(scrapy.Spider):
         html = title + description + image + publish_date + article
 
         self.html_file.write(html)
-        Logger.success('HTML file created. Ready to read.')
+
+    def nytimes(self, response):
+        title = response.css('[data-test-id="headline"]').get()
+        description = response.css('#article-summary').get()
+        image = response.css('header picture img').get()
+        publish_date = response.css('time.css-129k401.e16638kd0').get()
+        body = response.css('[name="articleBody"]').get()
+        html = ''
+
+        if title is not None:
+            html = html + title
+        if description is not None:
+            html = html + description
+        if image is not None:
+            html = html + image
+        if publish_date is not None:
+            html = html + publish_date
+        if body is not None:
+            html = html + body
+
+        self.html_file.write(html)

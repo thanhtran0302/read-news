@@ -32,6 +32,7 @@ Once Scrapy has done the job. The script will generate a `article.html` file. Yo
 * [The Diplomat](https://thediplomat.com)
 * [Foreign Policy](https://foreignpolicy.com)
 * [Asia Nikkei](https://asia.nikkei.com)
+* [NY Times](https://nytimes.com)
 
 More to come...
 
