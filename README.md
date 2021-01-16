@@ -21,7 +21,7 @@ $> pip3 install -r requirements.txt
 
 ### Launch Scrapy
 ```shell
-$> scrapy crawl poliasia -a 'url=https://www.economist.com/leaders/2021/01/16/why-a-dawn-of-technological-optimism-is-breaking'
+$> scrapy crawl news -a 'url=https://www.economist.com/leaders/2021/01/16/why-a-dawn-of-technological-optimism-is-breaking'
 ```
 
 ### Read news
