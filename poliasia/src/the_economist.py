@@ -1,0 +1,37 @@
+import json
+
+
+def get_attribs(attribs: dict) -> str:
+    attributs = []
+
+    for key, value in attribs.items():
+        attributs.append(key + '="' + value + '"')
+    return ''.join(attributs)
+
+
+def build_tag(element):
+    data = ''
+
+    if element['type'] == 'tag':
+        data = data + '<' + element['name']
+        if len(element['attribs']) != 0:
+            data = data + ' ' + get_attribs(element['attribs']) + '>'
+        else:
+            data = data + '>'
+    elif element['type'] == 'text':
+        data = data + element['data']
+
+    if 'children' in element:
+        for child in element['children']:
+            data = data + build_tag(child)
+        data = data + '</' + element['name'] + '>'
+    return data
+
+
+def json_to_html(data):
+    text = data['props']['pageProps']['content']['text']
+    html_content = ''
+
+    for item in text:
+        html_content = html_content + build_tag(item)
+    return html_content
