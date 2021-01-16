@@ -41,3 +41,4 @@ More to come...
 * Put all generated HTMl in one directory
 * Generate a `index.html` file to list all HTML files in directory
 * Rename HTML file with article title.
+* Provide own style of HTML, to make the reading experience better.
