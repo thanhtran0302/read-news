@@ -63,7 +63,7 @@ class DiplomatSpider(scrapy.Spider):
 
     def asia_nikkei_scrapper(self, response):
         title = response.css('h1.article-header__title').get()
-        titletext = response.css('h1.article-header__title::text').get()
+        titletext = response.css('h1.article-header__title span.ezstring-field::text').get()
         subtitle = response.css('p.article-header__sub-title').get()
         main_image = response.css('[data-trackable="image-main"] .img-fluid').get()
         article = response.css('.ezrichtext-field').get()
