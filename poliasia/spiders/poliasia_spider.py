@@ -67,7 +67,7 @@ class DiplomatSpider(scrapy.Spider):
         write_html(title, html)
 
     def the_economist(self, response):
-        titlet = response.css('.article__headline::text').get()
+        title = response.css('.article__headline::text').get()
         description = response.css('.article__description').get()
         image = response.css('.article__lead-image').get()
         publish_date = response.css('.article__dateline-datetime').get()
