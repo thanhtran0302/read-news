@@ -6,4 +6,6 @@ article.html
 __pycache__/
 **/__pycache__/
 .DS_Store
-articles/
+articles/*.html
+!articles/index.html
+!articles/style.css
