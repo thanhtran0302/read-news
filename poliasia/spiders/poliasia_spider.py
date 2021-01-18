@@ -32,6 +32,8 @@ class DiplomatSpider(scrapy.Spider):
             yield self.the_economist(response)
         elif url.find('nytimes.com') != -1:
             yield self.nytimes(response)
+        elif url.find('leparisien.fr') != -1:
+            yield self.le_parisien(response)
 
     def the_diplomat_scrapper(self, response):
         article = response.css('#td-story-body')
@@ -95,4 +97,17 @@ class DiplomatSpider(scrapy.Spider):
             html = html + publish_date
         if body is not None:
             html = html + body
+        write_html(title, html)
+
+    def le_parisien(self, response):
+        title = response.css('h1.title_xl::text').get()
+        subtitle = response.css('h2.subheadline::text').get()
+        image = response.css('section #primary_left img.image').get()
+        paragraphs = response.css('.article-section section.content').getall()
+        text = ''
+        html = build_title(title) + subtitle + image
+
+        for paragraph in paragraphs:
+            text = text + paragraph
+        html = html + text
         write_html(title, html)
