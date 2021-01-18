@@ -2,7 +2,7 @@ import json
 import scrapy
 from poliasia.src.logger import Logger
 from poliasia.src.the_economist import json_to_html
-from poliasia.src.utils import write_html
+from poliasia.src.utils import write_html, build_title
 
 
 class DiplomatSpider(scrapy.Spider):
@@ -10,7 +10,6 @@ class DiplomatSpider(scrapy.Spider):
     urls = []
 
     def __init__(self, *args, **kwargs):
-        print('URL', kwargs['url'])
         urls = kwargs['url'].split(',')
         self.urls = urls
 
@@ -36,56 +35,50 @@ class DiplomatSpider(scrapy.Spider):
 
     def the_diplomat_scrapper(self, response):
         article = response.css('#td-story-body')
-        title = response.css('#td-headline').get()
-        titletext = response.css('#td-headline::text').get()
+        title = response.css('#td-headline::text').get()
         date = response.css('.td-date [itemprop="datePublished"]').get()
         lead_title = response.css('#td-lead').get()
         paragraphs = article.css('p').getall()
-        html = title + lead_title + date
+        html = build_title(title) + lead_title + date
 
         for paragraph in paragraphs:
             if paragraph.find('td-ad-inline') == -1:
                 Logger.info('Adding paragraph to html content')
                 html = html + paragraph
 
-        write_html(titletext, html)
+        write_html(title, html)
 
     def foreign_policy_scrapper(self, response):
-        title = response.css('span.hed-heading .hed').get()
-        titletext = response.css('span.hed-heading .hed::text').get()
+        title = response.css('span.hed-heading .hed::text').get()
         description = response.css('h2.dek-heading').get()
         article = response.css('div.post-content-main').get()
-        html = title + description + article
+        html = build_title(title) + description + article
 
-        Logger.info('title ' + titletext)
-        write_html(titletext, html)
+        write_html(title, html)
 
 
     def asia_nikkei_scrapper(self, response):
-        title = response.css('h1.article-header__title').get()
-        titletext = response.css('h1.article-header__title span.ezstring-field::text').get()
+        title = response.css('h1.article-header__title span.ezstring-field::text').get()
         subtitle = response.css('p.article-header__sub-title').get()
         main_image = response.css('[data-trackable="image-main"] .img-fluid').get()
         article = response.css('.ezrichtext-field').get()
-        html = title + subtitle + main_image + article
+        html = build_title(title) + subtitle + main_image + article
 
-        write_html(titletext, html)
+        write_html(title, html)
 
     def the_economist(self, response):
-        title = response.css('.article__headline').get()
-        titletext = response.css('.article__headline::text').get()
+        title = response.css('.article__headline::text').get()
         description = response.css('.article__description').get()
         image = response.css('.article__lead-image').get()
         publish_date = response.css('.article__dateline-datetime').get()
         content = response.css('#__NEXT_DATA__::text').get()
         article = json_to_html(json.loads(content))
-        html = title + description + image + publish_date + article
+        html = build_title(title) + description + image + publish_date + article
 
-        write_html(titletext, html)
+        write_html(title, html)
 
     def nytimes(self, response):
-        title = response.css('[data-test-id="headline"]').get()
-        titletext = response.css('[data-test-id="headline"]::text').get()
+        title = response.css('[data-test-id="headline"]::text').get()
         description = response.css('#article-summary').get()
         image = response.css('header picture img').get()
         publish_date = response.css('time.css-129k401.e16638kd0').get()
@@ -93,7 +86,7 @@ class DiplomatSpider(scrapy.Spider):
         html = ''
 
         if title is not None:
-            html = html + title
+            html = html + build_title(title)
         if description is not None:
             html = html + description
         if image is not None:
@@ -102,4 +95,4 @@ class DiplomatSpider(scrapy.Spider):
             html = html + publish_date
         if body is not None:
             html = html + body
-        write_html(titletext, html)
+        write_html(title, html)
