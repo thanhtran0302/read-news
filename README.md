@@ -31,6 +31,19 @@ $> scrapy crawl news -a 'url=https://www.economist.com/leaders/2021/01/16/why-a-
 $> scrapy crawl news -a 'url=https://www.economist.com/leaders/2021/01/16/why-a-dawn-of-technological-optimism-is-breaking,https://foreignpolicy.com/2021/01/14/tokyo-olympics-2020-japan-public-opinion/'
 ```
 
+### Docker
+Install docker on your machine.
+
+To create the first build do:
+```shell
+$> docker-compose build
+```
+
+Each time you want to run the project, just do:
+```shell
+$> docker-compose up
+```
+
 ### Read news
 Once Scrapy has done the job. The script will generate a `article.html` file. You can open it, and enjoy your article. 
 
