@@ -7,4 +7,4 @@ services:
     tty: true
     volumes:
       - .:/code
-    command: scrapy crawl news -a 'url=https://www.economist.com/leaders/2021/01/16/why-a-dawn-of-technological-optimism-is-breaking,https://foreignpolicy.com/2021/01/14/tokyo-olympics-2020-japan-public-opinion/'
+    command: scrapy crawl news -a 'url=${URL}'
