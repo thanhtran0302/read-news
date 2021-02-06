@@ -48,11 +48,12 @@ $> docker-compose up
 Once Scrapy has done the job. The script will generate a `article.html` file. You can open it, and enjoy your article. 
 
 ## Supported websites
-* <a href="https://economist.com" target="_blank">The Economist</a>
-* <a href="https://thediplomat.com" target="_blank">The Diplomat</a>
-* <a href="https://foreignpolicy.com" target="_blank">Foreign Policy</a>
-* <a href="https://asia.nikkei.com" target="_blank">Asia Nikkei</a>
-* <a href="https://nytimes.com" target="_blank">NY Times</a>
+* [The Economist](https://economist.com)
+* [The Diplomat](https://thediplomat.com)
+* [Foreign Policy](https://foreignpolicy.com)
+* [Asia Nikkei](https://asia.nikkei.com)
+* [NY Times](https://nytimes.com)
+* [Le Parisien](https://www.leparisien.fr/)
 
 More to come...
 
