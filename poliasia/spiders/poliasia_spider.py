@@ -7,16 +7,12 @@ from poliasia.src.utils import write_html, build_title
 
 class DiplomatSpider(scrapy.Spider):
     name = 'news'
-    urls = []
-
-    def __init__(self, *args, **kwargs):
-        urls = kwargs['url'].split(',')
-        self.urls = urls
-
-        super(DiplomatSpider, self).__init__(*args, **kwargs)
 
     def start_requests(self):
-        for url in self.urls:
+        f = open('./URLs.txt', 'r')
+        urls = f.read().split('\n')
+
+        for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
