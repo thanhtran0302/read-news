@@ -9,6 +9,7 @@ I highly recommended using this script with a virtual environment.
 After cloned this repository. Go inside this one then install `virtualenv`
 
 ### Use virtualenv
+*NOTE:* If you use Docker. You can skip this step
 ```shell
 $> virtualenv .
 ```
@@ -19,19 +20,18 @@ After that, you should see two new directories: `bin` and `lib`
 $> pip3 install -r requirements.txt
 ```
 
-### Launch Scrapy
+### Before launch Scrapy
+Make sure that you've created a `URLs.txt` file before, and put wanted URLs in this file.
 
-#### Single URL
+1 line = 1 URL. See `URLs.example.txt`.
+
+### Launch Scrapy without Docker
+
 ```shell
-$> scrapy crawl news -a 'url=https://www.economist.com/leaders/2021/01/16/why-a-dawn-of-technological-optimism-is-breaking'
+$> scrapy crawl news
 ```
 
-#### Multiples URLs
-```shell
-$> scrapy crawl news -a 'url=https://www.economist.com/leaders/2021/01/16/why-a-dawn-of-technological-optimism-is-breaking,https://foreignpolicy.com/2021/01/14/tokyo-olympics-2020-japan-public-opinion/'
-```
-
-### Docker
+### Launch with Docker
 Install docker on your machine.
 
 To create the first build do:
@@ -45,7 +45,7 @@ $> docker-compose up
 ```
 
 ### Read news
-Once Scrapy has done the job. The script will generate a `article.html` file. You can open it, and enjoy your article. 
+Once Scrapy has done the job. The script will generate a `[article-title].html` file. You can open it, and enjoy your article. 
 
 ## Supported websites
 * <a href="https://economist.com" target="_blank">The Economist</a>
@@ -62,4 +62,4 @@ More to come...
 * ~~Put all generated HTMl in one directory~~
 * Generate a `index.html` file to list all HTML files in directory
 * ~~Rename HTML file with article title.~~
-* Provide own style of HTML, to make the reading experience better.
+* ~~Provide own style of HTML, to make the reading experience better.~~

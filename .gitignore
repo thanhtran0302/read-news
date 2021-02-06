@@ -5,6 +5,7 @@ pyvenv.cfg
 article.html
 __pycache__/
 **/__pycache__/
+URLs.txt
 .DS_Store
 articles/*.html
 !articles/index.html

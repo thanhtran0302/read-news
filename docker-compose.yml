@@ -7,4 +7,4 @@ services:
     tty: true
     volumes:
       - .:/code
-    command: scrapy crawl news -a 'url=${URL}'
+    command: scrapy crawl news

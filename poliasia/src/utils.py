@@ -14,7 +14,7 @@ def generate_html_filename(title: str) -> str:
 
 
 def write_html(title: str, html_content: str):
-    filename = generate_html_filename(title)
+    filename = generate_html_filename(title).strip()
     html_file = open('articles/' + filename, 'w')
 
     html_file.write(build_html_page(html_content))
