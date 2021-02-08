@@ -1,4 +1,5 @@
 import json
+from .utils import build_title, write_html
 
 
 def get_attribs(attribs: dict) -> str:
@@ -35,3 +36,15 @@ def json_to_html(data):
     for item in text:
         html_content = html_content + build_tag(item)
     return html_content
+
+
+def the_economist(response):
+    title = response.css('.article__headline::text').get()
+    description = response.css('.article__description').get()
+    image = response.css('.article__lead-image').get()
+    publish_date = response.css('.article__dateline-datetime').get()
+    content = response.css('#__NEXT_DATA__::text').get()
+    article = json_to_html(json.loads(content))
+    html = build_title(title) + description + image + publish_date + article
+
+    write_html(title, html)
