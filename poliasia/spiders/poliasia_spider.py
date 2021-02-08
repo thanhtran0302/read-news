@@ -2,11 +2,16 @@ import json
 import scrapy
 from poliasia.src.logger import Logger
 from poliasia.src.the_economist import json_to_html
-from poliasia.src.utils import write_html, build_title
+from poliasia.src.utils import write_html, build_title, is_directory_exists, create_today_directory
 
 
 class DiplomatSpider(scrapy.Spider):
     name = 'news'
+
+    def __init__(self):
+        is_dir_exists = is_directory_exists()
+        if is_dir_exists is False:
+            create_today_directory()
 
     def start_requests(self):
         f = open('./URLs.txt', 'r')
