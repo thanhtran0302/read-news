@@ -5,8 +5,11 @@ from datetime import date
 
 def create_today_directory():
     today = today_date()
-    os.mkdir('./articles/' + today)
-    Logger.success('Today directory is created: ' + today)
+    if not is_directory_exists():
+        os.mkdir('./articles/' + today)
+        Logger.success('Today directory is created: ' + today)
+    else:
+        Logger.warn('Today directory is already existed.')
 
 
 def is_directory_exists() -> bool:

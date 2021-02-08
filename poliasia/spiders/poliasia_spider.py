@@ -14,9 +14,7 @@ class DiplomatSpider(scrapy.Spider):
     name = 'news'
 
     def __init__(self):
-        is_dir_exists = is_directory_exists()
-        if is_dir_exists is False:
-            create_today_directory()
+        create_today_directory()
 
     def start_requests(self):
         f = open('./URLs.txt', 'r')
